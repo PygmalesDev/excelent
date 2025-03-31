@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class ImageCache {
+    private static final Logger logger = Main.getLogger();
     private static final Map<String, Image> IMAGES = new HashMap<>();
 
     private ImageCache() {}
@@ -23,14 +24,14 @@ public class ImageCache {
     private static Image loadImage(String path) {
         URL url = Main.class.getResource(path);
         if (Objects.isNull(url)) {
-            App.getLogger().warn("Failed not locate image `{}` in the project resources", path);
+            logger.warn("Failed not locate image `{}` in the project resources", path);
             return new Image("image/texture.png");
         }
 
         final String finalPath = url.toExternalForm();
         Image img = new Image(finalPath);
         img.errorProperty().addListener((obs, oldv, newv) -> {
-            if (newv) App.getLogger().warn("Failed to load image `{}`", finalPath);
+            if (newv) logger.warn("Failed to load image `{}`", finalPath);
         });
 
         return img;

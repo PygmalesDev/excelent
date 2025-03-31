@@ -3,19 +3,15 @@ package net.pygmales.excelent;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import net.pygmales.excelent.scene.Scenes;
+import net.pygmales.excelent.common.Scenes;
 import net.pygmales.excelent.service.FileManager;
 import net.pygmales.excelent.service.ImageCache;
 import net.pygmales.excelent.service.Storage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.function.Supplier;
 
 public class App extends Application {
     private final Storage storage = Storage.getInstance();
-
-    private static final Logger LOGGER = LogManager.getLogger();
     private static final Stage STAGE = new Stage();
 
     @Override
@@ -38,9 +34,5 @@ public class App extends Application {
 
     public static void setScene(Supplier<Scene> scene) {
         STAGE.setScene(scene.get());
-    }
-
-    public static Logger getLogger() {
-        return LOGGER;
     }
 }

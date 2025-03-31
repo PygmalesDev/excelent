@@ -1,4 +1,4 @@
-package net.pygmales.excelent.scene;
+package net.pygmales.excelent.common;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

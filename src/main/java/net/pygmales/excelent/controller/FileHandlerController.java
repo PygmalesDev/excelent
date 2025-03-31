@@ -7,8 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import net.pygmales.excelent.record.CalendarEntryData;
-import net.pygmales.excelent.scene.custom.CalendarEntry;
+import net.pygmales.excelent.element.CalendarGridView;
+import net.pygmales.excelent.record.CalendarCellData;
+import net.pygmales.excelent.element.CalendarCell;
 import net.pygmales.excelent.service.Storage;
 import org.controlsfx.control.GridView;
 
@@ -17,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class FileHandlerController implements Initializable {
     private final Storage storage = Storage.getInstance();
-    private final ObservableList<CalendarEntryData> list = FXCollections.observableArrayList();
+    private final ObservableList<CalendarCellData> list = FXCollections.observableArrayList();
 
     @FXML private AnchorPane calendarPane;
     @FXML private AnchorPane signaturePane;
@@ -27,11 +28,8 @@ public class FileHandlerController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.fileNameLabel.setText(this.storage.getOpenedFile().getName());
 
-        GridView<CalendarEntryData> calendarGrid = new GridView<>(this.list);
-        calendarGrid.setCellFactory(gridView -> new CalendarEntry());
-
-        signaturePane.getChildren().add(calendarGrid);
-        list.addAll(new CalendarEntryData(Color.ALICEBLUE), new CalendarEntryData(Color.BEIGE));
+        this.calendarPane.getChildren().add(new CalendarGridView(this.list));
+        this.list.addAll(new CalendarCellData(Color.RED), new CalendarCellData(Color.BLACK));
 
     }
 }

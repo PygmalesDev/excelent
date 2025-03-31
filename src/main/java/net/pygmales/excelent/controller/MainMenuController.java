@@ -3,7 +3,7 @@ package net.pygmales.excelent.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import net.pygmales.excelent.App;
-import net.pygmales.excelent.scene.Scenes;
+import net.pygmales.excelent.common.Scenes;
 import net.pygmales.excelent.service.FileManager;
 import net.pygmales.excelent.service.Storage;
 
