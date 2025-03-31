@@ -1,0 +1,41 @@
+package net.pygmales.excelent.service;
+
+import javafx.scene.image.Image;
+import net.pygmales.excelent.App;
+import net.pygmales.excelent.Main;
+import org.apache.logging.log4j.Logger;
+
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+public class ImageCache {
+    private static final Map<String, Image> IMAGES = new HashMap<>();
+
+    private ImageCache() {}
+
+    public static Image get(String path) {
+        path = String.join("/", "image", path);
+        return IMAGES.computeIfAbsent(path, ImageCache::loadImage);
+    }
+
+    private static Image loadImage(String path) {
+        URL url = Main.class.getResource(path);
+        if (Objects.isNull(url)) {
+            App.getLogger().warn("Failed not locate image `{}` in the project resources", path);
+            return new Image("image/texture.png");
+        }
+
+        final String finalPath = url.toExternalForm();
+        Image img = new Image(finalPath);
+        img.errorProperty().addListener((obs, oldv, newv) -> {
+            if (newv) App.getLogger().warn("Failed to load image `{}`", finalPath);
+        });
+
+        return img;
+    }
+
+    public static void load() {}
+
+}
