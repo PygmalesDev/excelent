@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import net.pygmales.excelent.App;
 import net.pygmales.excelent.common.Scenes;
+import net.pygmales.excelent.service.DatabaseService;
 import net.pygmales.excelent.service.FileManager;
 import net.pygmales.excelent.service.Storage;
 
@@ -12,6 +13,7 @@ import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
     private final Storage storage = Storage.getInstance();
+    private final DatabaseService databaseService = DatabaseService.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -22,7 +24,10 @@ public class MainMenuController implements Initializable {
     public void openFileManager() {
         FileManager.getExcelFile().ifPresent(file -> {
             FileManager.saveLatestFile(file.getAbsolutePath());
+
             this.storage.setOpenedFile(file);
+            this.databaseService.linkWithTable(file);
+
             App.setScene(Scenes.FILE_HANDLER);
         });
     }

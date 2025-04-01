@@ -15,12 +15,12 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static void main(String[] args) {
-        DatabaseService.getInstance().connect();
         Storage.load();
         Scenes.load();
         Styles.load();
         ImageCache.load();
         FileManager.load();
+        DatabaseService.getInstance().connect();
         Application.launch(App.class, args);
     }
 

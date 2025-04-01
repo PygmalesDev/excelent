@@ -1,10 +1,11 @@
 <Configuration status="info">
     <Properties>
-        <Property name="layout">%d{dd MMM yyyy HH:mm:ss} %-5level\t%m%n</Property>
+        <Property name="layout">%highlight{%d{dd MMM yyyy HH:mm:ss}}{INFO=white, WARN=white, FATAL=white} %highlight{%-5level}{INFO=blue, WARN=bright_yellow, FATAL=red}\t%highlight{%file:%line}{INFO=bright_yellow} %highlight{%m%n}{INFO=normal, WARN=normal, FATAL=red}
+        </Property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="${layout}"/>
+            <PatternLayout disableAnsi="false" pattern="${layout}"/>
         </Console>
     </Appenders>
     <Loggers>
