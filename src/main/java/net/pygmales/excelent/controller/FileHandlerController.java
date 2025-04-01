@@ -9,13 +9,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import net.pygmales.excelent.element.CalendarGridView;
 import net.pygmales.excelent.record.CalendarCellData;
+import net.pygmales.excelent.service.DatabaseService;
+import net.pygmales.excelent.service.ExcelManagerService;
 import net.pygmales.excelent.service.Storage;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class FileHandlerController implements Initializable {
     private final Storage storage = Storage.getInstance();
+    private final DatabaseService databaseService = DatabaseService.getInstance();
+    private final ExcelManagerService excelManagerService = ExcelManagerService.getInstance();
     private final ObservableList<CalendarCellData> list = FXCollections.observableArrayList();
 
     @FXML private AnchorPane calendarPane;
@@ -24,6 +29,10 @@ public class FileHandlerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        final File openedFile = this.storage.getOpenedFile();
+        this.databaseService.linkWithTable(openedFile);
+        this.excelManagerService.openExcelFile(openedFile);
+
         this.fileNameLabel.setText(this.storage.getOpenedFile().getName());
 
         this.calendarPane.getChildren().add(new CalendarGridView(this.list));

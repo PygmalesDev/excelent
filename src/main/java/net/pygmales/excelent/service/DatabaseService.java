@@ -2,7 +2,6 @@ package net.pygmales.excelent.service;
 
 import net.pygmales.excelent.Main;
 import net.pygmales.excelent.util.database.TableEntry;
-import net.pygmales.excelent.util.database.TableModificationEvent;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
@@ -18,7 +17,7 @@ public class DatabaseService {
     private static final Storage STORAGE = Storage.getInstance();
 
     private Connection connection;
-    private int fileTableIndex;
+    private String fileTableIndex;
     private String fileName;
     private final Logger log = Main.getLogger();
 
@@ -28,30 +27,24 @@ public class DatabaseService {
 
     public void connect() {
         try {
-            connection = DriverManager.getConnection(URL);
-            if (Objects.nonNull(connection)) {
-                DatabaseMetaData meta = connection.getMetaData();
-                Main.getLogger().info("Database driver connection {}", meta.getDriverName());
-                Main.getLogger().info("New database has been created");
-            }
-
-            Main.getLogger().info("Connection to SQLite has been established");
+            this.connection = DriverManager.getConnection(URL);
+            if (Objects.nonNull(connection))
+                this.log.info("Database driver connection {}", connection.getMetaData().getDriverName());
+            this.log.info("Connection to SQLite has been established");
         } catch (SQLException e) {
-            Main.getLogger().fatal(e.getMessage());
+            this.log.fatal(e.getMessage());
         }
     }
 
     public void linkWithTable(File file) {
-        this.fileTableIndex = file.getName().hashCode();
-        this.fileName = STORAGE.getOpenedFile().getName();
+        this.fileName = file.getName();
+        this.fileTableIndex = String.format("table_%d", Math.abs(this.fileName.hashCode()));
         this.createTableIfNotExists();
     }
 
     public void createTableIfNotExists() {
-        if (this.tableExists()) return;
-
         final String sql = String.format("""
-                CREATE TABLE IF NOT EXISTS %d (
+                CREATE TABLE IF NOT EXISTS %s (
                     id                       INTEGER     PRIMARY KEY,
                     firm_name                TEXT        NOT NULL,
                     track_num                TEXT,
@@ -65,21 +58,9 @@ public class DatabaseService {
         try {
             Statement statement = this.connection.createStatement();
             statement.execute(sql);
-            Main.getLogger().info("New table {} for file {} has been created",
-                    this.fileTableIndex, this.fileName);
+            this.log.info("Table '{}' for file '{}' has been opened", this.fileTableIndex, this.fileName);
         } catch (SQLException e) {
-            Main.getLogger().fatal(e.getMessage());
-        }
-    }
-
-    private boolean tableExists() {
-        final String sql = String.format("PRAGMA table_info(%s)", this.fileTableIndex);
-        try {
-            Statement statement = this.connection.createStatement();
-            return statement.executeQuery(sql).next();
-        } catch (SQLException e) {
-            log.warn("Table for file {} does not exist", this.fileName);
-            return false;
+            this.log.fatal(e.getMessage());
         }
     }
 
@@ -88,7 +69,7 @@ public class DatabaseService {
         StringBuilder values = new StringBuilder();
 
         if (entries.stream().map(TableEntry::field).noneMatch(entry -> Objects.equals(entry, FIRM_NAME))) {
-            log.warn("New transaction for table {} does not contain non-null field {}!",
+            this.log.warn("New transaction for table {} does not contain non-null field {}!",
                     this.fileName, FIRM_NAME.getFieldName());
             return;
         }
@@ -116,7 +97,7 @@ public class DatabaseService {
             }
             statement.executeUpdate();
         } catch (SQLException e) {
-            Main.getLogger().fatal(e.getMessage());
+            this.log.fatal(e.getMessage());
         }
     }
 }

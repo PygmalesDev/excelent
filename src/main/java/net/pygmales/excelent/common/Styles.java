@@ -12,10 +12,10 @@ public class Styles {
     private static String registerStyle(String name) {
         URL path = App.class.getResource("style/" + name + ".css");
         if (Objects.isNull(path)) {
-            Main.getLogger().warn("Failed to load style `{}`", name);
+            Main.getLogger().warn("Failed to load style '{}'", name);
             return "";
         }
-        Main.getLogger().info("Successfully loaded style `{}`", name);
+        Main.getLogger().info("Successfully loaded style '{}'", name);
         return path.toExternalForm();
     }
 

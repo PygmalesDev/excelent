@@ -7,6 +7,7 @@ module net.pygmales.excelent {
     requires org.apache.logging.log4j.core;
     requires org.apache.logging.log4j;
     requires java.sql;
+    requires org.apache.poi.ooxml;
 
     opens net.pygmales.excelent to javafx.fxml;
     exports net.pygmales.excelent;

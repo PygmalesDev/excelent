@@ -24,8 +24,13 @@ public class ImageCache {
     private static Image loadImage(String path) {
         URL url = Main.class.getResource(path);
         if (Objects.isNull(url)) {
-            logger.warn("Failed not locate image `{}` in the project resources", path);
-            return new Image("image/texture.png");
+            logger.warn("Failed not locate image '{}' in the project resources", path);
+
+            URL blankImgPath = Main.class.getResource("image/texture.png");
+            if (Objects.nonNull(blankImgPath)) return new Image(blankImgPath.toExternalForm());
+
+            logger.error("Temp image not found in the project resources!");
+            return null;
         }
 
         final String finalPath = url.toExternalForm();

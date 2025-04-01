@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import net.pygmales.excelent.common.Scenes;
+import net.pygmales.excelent.service.DatabaseService;
 import net.pygmales.excelent.service.FileManager;
 import net.pygmales.excelent.service.ImageCache;
 import net.pygmales.excelent.service.Storage;
@@ -12,11 +13,12 @@ import java.util.function.Supplier;
 
 public class App extends Application {
     private final Storage storage = Storage.getInstance();
+    private final DatabaseService databaseService = DatabaseService.getInstance();
     private static final Stage STAGE = new Stage();
 
     @Override
     public void start(Stage stage) {
-        STAGE.getIcons().add(ImageCache.get("icon.png"));
+        STAGE.getIcons().add(ImageCache.get("ss.png"));
         STAGE.setTitle("Excelent!");
         STAGE.setResizable(false);
 
