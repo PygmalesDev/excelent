@@ -1,6 +1,6 @@
 <Configuration status="info">
     <Properties>
-        <Property name="layout">%d{dd MMM yyyy HH:mm:ss} %-5level%m%n</Property>
+        <Property name="layout">%d{dd MMM yyyy HH:mm:ss} %-5level\t%m%n</Property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">

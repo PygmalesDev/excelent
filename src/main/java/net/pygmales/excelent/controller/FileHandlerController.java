@@ -9,9 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import net.pygmales.excelent.element.CalendarGridView;
 import net.pygmales.excelent.record.CalendarCellData;
-import net.pygmales.excelent.element.CalendarCell;
 import net.pygmales.excelent.service.Storage;
-import org.controlsfx.control.GridView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +19,7 @@ public class FileHandlerController implements Initializable {
     private final ObservableList<CalendarCellData> list = FXCollections.observableArrayList();
 
     @FXML private AnchorPane calendarPane;
-    @FXML private AnchorPane signaturePane;
+    @FXML private AnchorPane editPane;
     @FXML private Label fileNameLabel;
 
     @Override

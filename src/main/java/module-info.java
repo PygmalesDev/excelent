@@ -6,6 +6,7 @@ module net.pygmales.excelent {
     requires com.dlsc.formsfx;
     requires org.apache.logging.log4j.core;
     requires org.apache.logging.log4j;
+    requires java.sql;
 
     opens net.pygmales.excelent to javafx.fxml;
     exports net.pygmales.excelent;

@@ -10,27 +10,27 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.pygmales.excelent.controller.FileHandlerController">
     <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="800.0" AnchorPane.bottomAnchor="574.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <Menu mnemonicParsing="false" text="File">
+        <Menu mnemonicParsing="false" text="Файл">
             <MenuItem mnemonicParsing="false" text="Close" />
         </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
+        <Menu mnemonicParsing="false" text="Свойства">
             <MenuItem mnemonicParsing="false" text="Delete" />
         </Menu>
-        <Menu mnemonicParsing="false" text="Calendar">
+        <Menu mnemonicParsing="false" text="Помощь">
             <items>
-                <MenuItem mnemonicParsing="false" text="About" />
+                <MenuItem mnemonicParsing="false" text="О программе..." />
             </items>
         </Menu>
     </MenuBar>
     <Label fx:id="fileNameLabel" layoutX="729.0" layoutY="4.0" text="\%fileName" textAlignment="RIGHT" />
    <TabPane layoutY="26.0" prefHeight="576.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
-       <Tab text="Signature">
+       <Tab text="Редактировать">
          <content>
-           <AnchorPane fx:id="signaturePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+           <AnchorPane fx:id="editPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
          </content>
        </Tab>
-       <Tab text="Calendar">
+       <Tab text="Календарь">
          <content>
            <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
          </content>
