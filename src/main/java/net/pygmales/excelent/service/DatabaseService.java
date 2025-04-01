@@ -9,11 +9,12 @@ import java.sql.*;
 import java.util.List;
 import java.util.Objects;
 
+import static net.pygmales.excelent.common.Constants.DB_PATH;
 import static net.pygmales.excelent.util.database.TableField.FIRM_NAME;
 
 public class DatabaseService {
     private static final DatabaseService INSTANCE = new DatabaseService();
-    private static final String URL = "jdbc:sqlite:./data/excelent.db";
+    private static final String URL = String.format("jdbc:sqlite:%s", DB_PATH);
     private static final Storage STORAGE = Storage.getInstance();
 
     private Connection connection;

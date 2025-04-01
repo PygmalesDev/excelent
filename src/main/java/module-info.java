@@ -8,9 +8,13 @@ module net.pygmales.excelent {
     requires org.apache.logging.log4j;
     requires java.sql;
     requires org.apache.poi.ooxml;
+    requires com.fasterxml.jackson.databind;
+    requires org.xerial.sqlitejdbc;
 
     opens net.pygmales.excelent to javafx.fxml;
     exports net.pygmales.excelent;
     exports net.pygmales.excelent.controller;
+    exports net.pygmales.excelent.record;
+
     opens net.pygmales.excelent.controller to javafx.fxml;
 }
