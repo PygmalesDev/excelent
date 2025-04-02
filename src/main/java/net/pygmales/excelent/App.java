@@ -12,8 +12,8 @@ import net.pygmales.excelent.service.Storage;
 import java.util.function.Supplier;
 
 public class App extends Application {
-    private final Storage storage = Storage.getInstance();
-    private final DatabaseService databaseService = DatabaseService.getInstance();
+    private static final DatabaseService DATABASE = DatabaseService.getInstance();
+    private static final Storage STORAGE = Storage.getInstance();
     private static final Stage STAGE = new Stage();
 
     @Override
@@ -22,10 +22,9 @@ public class App extends Application {
         STAGE.setTitle("Excelent!");
         STAGE.setResizable(false);
 
-        FileManager.getLatestFile().ifPresentOrElse(file -> {
-            this.storage.setOpenedFile(file);
-            setScene(Scenes.FILE_HANDLER);
-        }, () -> setScene(Scenes.OPENING));
+        FileManager.getLastEditedNotepad().ifPresentOrElse(
+                notepad -> setScene(Scenes.FILE_HANDLER),
+                () -> setScene(Scenes.MAIN_MENU));
 
         STAGE.show();
     }

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.function.Supplier;
 
 public class Scenes {
-    public static final Supplier<Scene> OPENING = registerSupplier("main-menu");
+    public static final Supplier<Scene> MAIN_MENU = registerSupplier("main-menu");
     public static final Supplier<Scene> FILE_HANDLER = registerSupplier("file-handler");
     public static final Supplier<Scene> CALENDAR_ENTRY = registerSupplier("calendar-entry");
 

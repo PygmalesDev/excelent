@@ -5,6 +5,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.pygmales.excelent.controller.MainMenuController">
@@ -12,19 +15,28 @@
       <children>
          <Button fx:id="openCreationButton" layoutX="242.0" layoutY="317.0" mnemonicParsing="false" onAction="#openCreationWindow" prefHeight="25.0" prefWidth="102.0" text="Создать" />
          <Button fx:id="openNotepadButton" layoutX="242.0" layoutY="259.0" mnemonicParsing="false" onAction="#openFileManager" prefHeight="25.0" prefWidth="102.0" text="Открыть" />
-         <AnchorPane fx:id="creationConfirmPane" layoutX="193.0" layoutY="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" visible="false">
-            <effect>
-               <DropShadow />
-            </effect>
-            <children>
-               <Button fx:id="confirmCreationButton" layoutX="116.0" layoutY="149.0" mnemonicParsing="false" onAction="#confirmNotepadCreation" text="Создать" />
-               <Button layoutX="24.0" layoutY="149.0" mnemonicParsing="false" onAction="#closeCreationWindow" text="Отмена" />
-               <TextField fx:id="notepadNameField" layoutX="26.0" layoutY="88.0" />
-               <Text layoutX="57.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Новый блокнот" />
-               <Text layoutX="25.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введите название" />
-            </children>
-         </AnchorPane>
       </children>
    </AnchorPane>
    <ListView fx:id="notepadsListView" prefHeight="600.0" prefWidth="215.0" />
+   <Pane fx:id="shadowPane" opacity="0.5" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: black;" />
+   <AnchorPane fx:id="creationConfirmPane" layoutX="410.0" layoutY="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+      <effect>
+         <DropShadow height="176.0" radius="91.9825" width="193.93">
+            <color>
+               <Color opacity="0.6106870174407959" />
+            </color>
+         </DropShadow>
+      </effect>
+      <children>
+         <Button fx:id="confirmCreationButton" layoutX="116.0" layoutY="149.0" mnemonicParsing="false" onAction="#confirmNotepadCreation" text="Создать" />
+         <Button layoutX="24.0" layoutY="149.0" mnemonicParsing="false" onAction="#closeCreationWindow" text="Отмена" />
+         <TextField fx:id="notepadNameField" layoutX="26.0" layoutY="88.0" />
+         <Text layoutX="46.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Новый блокнот">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font>
+         </Text>
+         <Text layoutX="25.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введите название" />
+      </children>
+   </AnchorPane>
 </AnchorPane>

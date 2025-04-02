@@ -10,6 +10,7 @@ module net.pygmales.excelent {
     requires org.apache.poi.ooxml;
     requires com.fasterxml.jackson.databind;
     requires org.xerial.sqlitejdbc;
+    requires com.fasterxml.jackson.datatype.jsr310;
 
     opens net.pygmales.excelent to javafx.fxml;
     exports net.pygmales.excelent;

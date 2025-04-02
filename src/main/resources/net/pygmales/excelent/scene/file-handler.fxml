@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.pygmales.excelent.controller.FileHandlerController">
     <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="800.0" AnchorPane.bottomAnchor="574.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" text="Файл">
-            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" onAction="#returnToMainScreen" text="Закрыть" />
         </Menu>
         <Menu mnemonicParsing="false" text="Свойства">
             <MenuItem mnemonicParsing="false" text="Delete" />
@@ -32,21 +40,31 @@
          <content>
            <AnchorPane fx:id="editPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <Label fx:id="companyNameLabel" layoutX="220.0" layoutY="14.0" text="\%company_name" />
-                     <ListView prefHeight="510.0" prefWidth="200.0" />
-                     <Label fx:id="companyNameLabel1" layoutX="220.0" layoutY="48.0" text="Дата получения письма:" />
-                     <Label fx:id="companyNameLabel11" layoutX="220.0" layoutY="82.0" text="Крайний срок оплаты:" />
-                     <Label fx:id="companyNameLabel111" layoutX="380.0" layoutY="48.0" text="\%message_delivered_day" />
-                     <Button layoutX="232.0" layoutY="491.0" mnemonicParsing="false" text="Редактировать" />
-                     <Button layoutX="348.0" layoutY="491.0" mnemonicParsing="false" text="Закрыть" />
-                     <Label fx:id="companyNameLabel1111" layoutX="380.0" layoutY="82.0" text="\%message_max_time" />
-                     <TextArea layoutX="224.0" layoutY="274.0" prefHeight="200.0" prefWidth="547.0" />
-                     <Label layoutX="232.0" layoutY="250.0" text="Заметки" />
-                     <Label layoutX="220.0" layoutY="144.0" text="Трек номер счёта:" />
-                     <Label layoutX="220.0" layoutY="174.0" text="Трек номер водителя:" />
-                     <Button layoutX="-1.0" layoutY="510.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="201.0" text="Новая отправка" />
-                     <Label fx:id="companyNameLabel1112" layoutX="380.0" layoutY="144.0" text="\%track_num" />
-                     <Label fx:id="companyNameLabel11111" layoutX="380.0" layoutY="174.0" text="\%driver_track_num" />
+                     <AnchorPane layoutX="200.0" layoutY="-1.0" prefHeight="548.0" prefWidth="601.0">
+                        <children>
+                           <Label fx:id="companyNameLabel" layoutX="26.0" layoutY="32.0" text="\%company_name">
+                              <font>
+                                 <Font name="System Bold" size="14.0" />
+                              </font>
+                           </Label>
+                           <Label fx:id="companyNameLabel1" layoutX="26.0" layoutY="79.0" text="Дата получения письма:" />
+                           <Label fx:id="companyNameLabel11" layoutX="26.0" layoutY="113.0" text="Крайний срок оплаты:" />
+                           <Label fx:id="companyNameLabel111" layoutX="208.0" layoutY="79.0" text="\%message_delivered_day" />
+                           <Button layoutX="33.0" layoutY="486.0" mnemonicParsing="false" text="Редактировать" />
+                           <Button layoutX="150.0" layoutY="486.0" mnemonicParsing="false" text="Закрыть" />
+                           <Label fx:id="companyNameLabel1111" layoutX="208.0" layoutY="113.0" text="\%message_max_time" />
+                           <TextArea layoutX="27.0" layoutY="270.0" prefHeight="200.0" prefWidth="547.0" />
+                           <Label layoutX="27.0" layoutY="243.0" text="Заметки" />
+                           <Label layoutX="22.0" layoutY="161.0" text="Трек номер счёта:" />
+                           <Label layoutX="21.0" layoutY="193.0" text="Трек номер водителя:" />
+                           <Label fx:id="companyNameLabel1112" layoutX="208.0" layoutY="161.0" text="\%track_num" />
+                           <Label fx:id="companyNameLabel11111" layoutX="208.0" layoutY="193.0" text="\%driver_track_num" />
+                           <Label fx:id="companyNameLabel111111" layoutX="524.0" layoutY="24.0" text="\%status" />
+                           <Label fx:id="companyNameLabel1113" layoutX="150.0" layoutY="34.0" text="\%phone_number" />
+                        </children>
+                     </AnchorPane>
+                     <Button fx:id="newSendingWindowButton" layoutY="510.0" mnemonicParsing="false" onAction="#openNewSendingWindow" prefHeight="34.0" prefWidth="201.0" text="Новая отправка" AnchorPane.bottomAnchor="3.0" />
+                     <ListView fx:id="sendingsListView" layoutX="1.0" prefHeight="510.0" prefWidth="200.0" />
                   </children></AnchorPane>
          </content>
        </Tab>
@@ -57,4 +75,35 @@
        </Tab>
      </tabs>
    </TabPane>
+   <Pane fx:id="shadowPane" opacity="0.5" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: black;" visible="false" />
+   <AnchorPane fx:id="newSendingPane" layoutX="213.0" layoutY="134.0" prefHeight="365.0" prefWidth="407.0" style="-fx-background-color: white; -fx-background-radius: 10;" visible="false" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="213.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="134.0">
+      <effect>
+         <DropShadow height="176.35" radius="92.07" width="193.93">
+            <color>
+               <Color opacity="0.6106870174407959" />
+            </color>
+         </DropShadow>
+      </effect>
+      <children>
+         <Button fx:id="closeNewSendingButton" layoutX="369.0" layoutY="12.0" mnemonicParsing="false" onAction="#closeNewSendingWindow" text="X" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="12.0" />
+         <Button fx:id="confirmNewSendingButton" layoutX="365.0" layoutY="330.0" mnemonicParsing="false" onAction="#confirmSendingCreation" text="Создать" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+         <Label layoutX="27.0" layoutY="57.0" text="Название фирмы" AnchorPane.leftAnchor="27.0" />
+         <Label layoutX="27.0" layoutY="107.0" text="Дата получения письма" AnchorPane.leftAnchor="27.0" />
+         <Label layoutX="30.0" layoutY="276.0" text="Номер телефона" AnchorPane.leftAnchor="30.0" />
+         <Label layoutX="27.0" layoutY="193.0" text="Трек номер счёта" AnchorPane.leftAnchor="30.0" />
+         <Label layoutX="27.0" layoutY="224.0" text="Трек номер водителя" AnchorPane.leftAnchor="30.0" />
+         <Label layoutX="27.0" layoutY="16.0" text="Создание новой отправки" AnchorPane.leftAnchor="27.0">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font>
+         </Label>
+         <TextField fx:id="companyNameText" layoutX="197.0" layoutY="53.0" />
+         <Text layoutX="27.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Количество рабочих дней для оплаты" wrappingWidth="149.0" AnchorPane.leftAnchor="27.0" />
+         <DatePicker fx:id="messageReceivedDate" layoutX="197.0" layoutY="103.0" />
+         <TextField fx:id="trackNumberText" layoutX="197.0" layoutY="189.0" />
+         <TextField fx:id="driverTrackNumberText" layoutX="197.0" layoutY="220.0" />
+         <TextField fx:id="phoneNumberText" layoutX="197.0" layoutY="272.0" />
+         <Spinner fx:id="maxWorkDaysSpinner" editable="true" layoutX="197.0" layoutY="134.0" prefHeight="25.0" prefWidth="53.0" />
+      </children>
+   </AnchorPane>
 </AnchorPane>

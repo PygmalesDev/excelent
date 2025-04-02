@@ -4,39 +4,91 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import net.pygmales.excelent.App;
+import net.pygmales.excelent.common.Scenes;
 import net.pygmales.excelent.element.CalendarGridView;
 import net.pygmales.excelent.record.CalendarCellData;
+import net.pygmales.excelent.record.Sending;
+import net.pygmales.excelent.service.AnswerDateService;
 import net.pygmales.excelent.service.DatabaseService;
-import net.pygmales.excelent.service.ExcelManagerService;
 import net.pygmales.excelent.service.Storage;
 
-import java.io.File;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class FileHandlerController implements Initializable {
-    private final Storage storage = Storage.getInstance();
-    private final DatabaseService databaseService = DatabaseService.getInstance();
-    private final ExcelManagerService excelManagerService = ExcelManagerService.getInstance();
-    private final ObservableList<CalendarCellData> list = FXCollections.observableArrayList();
 
+    private static final Storage STORAGE = Storage.getInstance();
+    private static final DatabaseService DATABASE = DatabaseService.getInstance();
+    private final ObservableList<CalendarCellData> calendarList = FXCollections.observableArrayList();
+
+    @FXML private TextField companyNameText;
+    @FXML private DatePicker messageReceivedDate;
+    @FXML private TextField trackNumberText;
+    @FXML private TextField driverTrackNumberText;
+    @FXML private Spinner<Integer> maxWorkDaysSpinner;
+    @FXML private TextField phoneNumberText;
+    @FXML private ListView<Sending> sendingsListView;
+
+    @FXML private Pane shadowPane;
+    @FXML private AnchorPane newSendingPane;
     @FXML private AnchorPane calendarPane;
-    @FXML private AnchorPane editPane;
     @FXML private Label fileNameLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        final File openedFile = this.storage.getOpenedFile();
-        this.databaseService.linkWithTable(openedFile);
-        this.excelManagerService.openExcelFile(openedFile);
+        this.setNewSendingWindowVisible(false);
+        this.fileNameLabel.setText(STORAGE.getNotepad().name());
+        this.maxWorkDaysSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
 
-        this.fileNameLabel.setText(this.storage.getOpenedFile().getName());
+        this.sendingsListView.setItems(STORAGE.getSendingsObservableList());
 
-        this.calendarPane.getChildren().add(new CalendarGridView(this.list));
-        this.list.addAll(new CalendarCellData(Color.RED), new CalendarCellData(Color.BLACK));
+        this.calendarPane.getChildren().add(new CalendarGridView(this.calendarList));
+        this.calendarList.addAll(new CalendarCellData(Color.RED), new CalendarCellData(Color.BLACK));
 
     }
+
+    @FXML
+    public void returnToMainScreen() {
+        App.setScene(Scenes.MAIN_MENU);
+    }
+
+    @FXML
+    public void openNewSendingWindow() {
+        this.setNewSendingWindowVisible(true);
+        this.messageReceivedDate.setValue(LocalDate.now());
+    }
+
+    @FXML
+    public void closeNewSendingWindow() {
+        this.setNewSendingWindowVisible(false);
+    }
+
+    @FXML
+    public void confirmSendingCreation() {
+        LocalDate msgReceivedDate = this.messageReceivedDate.getValue();
+        int maxWorkDays = this.maxWorkDaysSpinner.getValue();
+        Sending sending = new Sending(
+                this.companyNameText.getText().strip(),
+                this.trackNumberText.getText().strip(),
+                this.driverTrackNumberText.getText().strip(),
+                msgReceivedDate, maxWorkDays,
+                AnswerDateService.getMaxAnswerDay(msgReceivedDate, maxWorkDays),
+                this.phoneNumberText.getText().strip(),
+                0);
+
+        if (DATABASE.createSendingEntry(sending)) this.setNewSendingWindowVisible(false);
+    }
+
+    private void setNewSendingWindowVisible(boolean isVisible) {
+        this.shadowPane.setVisible(isVisible);
+        this.newSendingPane.setVisible(isVisible);
+        this.newSendingPane.setMouseTransparent(!isVisible);
+    }
+
 }

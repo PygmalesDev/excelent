@@ -1,7 +1,14 @@
 package net.pygmales.excelent.record;
 
+import java.time.LocalDateTime;
+
 public record Notepad(
         String name,
-        String db_id,
-        String lastEdited
-) {}
+        String tableID,
+        LocalDateTime lastEdited
+) {
+    public Notepad updateEditTime() {
+        return new Notepad(this.name, this.tableID, LocalDateTime.now());
+    }
+
+}

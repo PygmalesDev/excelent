@@ -1,21 +1,41 @@
 package net.pygmales.excelent.service;
 
-import java.io.File;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import net.pygmales.excelent.record.Notepad;
+import net.pygmales.excelent.record.Sending;
+
+import java.util.List;
 
 public class Storage {
     private static final Storage INSTANCE = new Storage();
-    private File openedFile;
+
+    private final ObservableList<Sending> sendings = FXCollections.observableArrayList();
+    private Notepad openedNotepad;
 
     public static Storage getInstance() {
         return INSTANCE;
     }
 
-    public File getOpenedFile() {
-        return openedFile;
+    public Notepad getNotepad() {
+        return this.openedNotepad;
     }
 
-    public void setOpenedFile(File openedFile) {
-        this.openedFile = openedFile;
+    public void setNotepad(Notepad notepad) {
+        this.openedNotepad = notepad;
+        this.sendings.clear();
+    }
+
+    public ObservableList<Sending> getSendingsObservableList() {
+        return this.sendings;
+    }
+
+    public void putSending(Sending sending) {
+        this.sendings.add(sending);
+    }
+
+    public void putSendings(List<Sending> sendingList) {
+        this.sendings.addAll(sendingList);
     }
 
     public static void load() {}
