@@ -33,38 +33,39 @@
             </items>
         </Menu>
     </MenuBar>
-    <Label fx:id="fileNameLabel" layoutX="688.0" layoutY="4.0" prefHeight="17.0" prefWidth="99.0" text="\%fileName" textAlignment="RIGHT" />
+    <Label fx:id="fileNameLabel" alignment="CENTER_RIGHT" layoutX="607.0" layoutY="4.0" prefHeight="17.0" prefWidth="180.0" text="\%fileName" textAlignment="RIGHT" />
    <TabPane layoutY="26.0" prefHeight="576.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
        <Tab text="Отправки">
          <content>
            <AnchorPane fx:id="editPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <AnchorPane layoutX="200.0" layoutY="-1.0" prefHeight="548.0" prefWidth="601.0">
+                     <AnchorPane fx:id="sendingPane" layoutX="200.0" layoutY="-1.0" prefHeight="548.0" prefWidth="601.0" visible="false">
                         <children>
                            <Label fx:id="companyNameLabel" layoutX="26.0" layoutY="32.0" text="\%company_name">
                               <font>
                                  <Font name="System Bold" size="14.0" />
                               </font>
                            </Label>
-                           <Label fx:id="companyNameLabel1" layoutX="26.0" layoutY="79.0" text="Дата получения письма:" />
-                           <Label fx:id="companyNameLabel11" layoutX="26.0" layoutY="113.0" text="Крайний срок оплаты:" />
-                           <Label fx:id="companyNameLabel111" layoutX="208.0" layoutY="79.0" text="\%message_delivered_day" />
+                           <Label layoutX="26.0" layoutY="79.0" text="Дата получения письма:" />
+                           <Label layoutX="26.0" layoutY="113.0" text="Крайний срок оплаты:" />
+                           <Label fx:id="messageReceivedDateLabel" layoutX="208.0" layoutY="79.0" text="\%message_delivered_day" />
                            <Button layoutX="33.0" layoutY="486.0" mnemonicParsing="false" text="Редактировать" />
                            <Button layoutX="150.0" layoutY="486.0" mnemonicParsing="false" text="Закрыть" />
-                           <Label fx:id="companyNameLabel1111" layoutX="208.0" layoutY="113.0" text="\%message_max_time" />
+                           <Label fx:id="messageAnswerDayMaxLabel" layoutX="208.0" layoutY="113.0" text="\%message_max_time" />
                            <TextArea layoutX="27.0" layoutY="270.0" prefHeight="200.0" prefWidth="547.0" />
                            <Label layoutX="27.0" layoutY="243.0" text="Заметки" />
                            <Label layoutX="22.0" layoutY="161.0" text="Трек номер счёта:" />
                            <Label layoutX="21.0" layoutY="193.0" text="Трек номер водителя:" />
-                           <Label fx:id="companyNameLabel1112" layoutX="208.0" layoutY="161.0" text="\%track_num" />
-                           <Label fx:id="companyNameLabel11111" layoutX="208.0" layoutY="193.0" text="\%driver_track_num" />
-                           <Label fx:id="companyNameLabel111111" layoutX="524.0" layoutY="24.0" text="\%status" />
-                           <Label fx:id="companyNameLabel1113" layoutX="150.0" layoutY="34.0" text="\%phone_number" />
+                           <Label fx:id="trackNumberLabel" layoutX="208.0" layoutY="161.0" text="\%track_num" />
+                           <Label fx:id="driverTrackNumberLabel" layoutX="208.0" layoutY="193.0" text="\%driver_track_num" />
+                           <Label fx:id="openStatusLabel" layoutX="524.0" layoutY="24.0" text="\%status" />
+                           <Label fx:id="phoneNumberLabel" layoutX="150.0" layoutY="34.0" text="\%phone_number" />
                         </children>
                      </AnchorPane>
                      <Button fx:id="newSendingWindowButton" layoutY="510.0" mnemonicParsing="false" onAction="#openNewSendingWindow" prefHeight="34.0" prefWidth="201.0" text="Новая отправка" AnchorPane.bottomAnchor="3.0" />
-                     <ListView fx:id="sendingsListView" layoutX="1.0" prefHeight="510.0" prefWidth="200.0" />
+                     <ListView fx:id="sendingsListView" editable="true" layoutX="1.0" prefHeight="510.0" prefWidth="200.0" />
+                     <Text fx:id="informationText" layoutX="394.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите отправку из списка слева или создайте новую" textAlignment="CENTER" wrappingWidth="213.90625" />
                   </children></AnchorPane>
          </content>
        </Tab>

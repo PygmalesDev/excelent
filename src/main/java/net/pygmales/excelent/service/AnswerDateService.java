@@ -5,13 +5,12 @@ import java.time.LocalDate;
 
 public class AnswerDateService {
     public static LocalDate getMaxAnswerDay(LocalDate from, int workDays) {
-        LocalDate next = from;
         while (workDays != 0) {
-            next = from.plusDays(1);
-            DayOfWeek day = next.getDayOfWeek();
+            from = from.plusDays(1);
+            DayOfWeek day = from.getDayOfWeek();
             if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) continue;
             workDays--;
         }
-        return next;
+        return from;
     }
 }

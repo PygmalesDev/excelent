@@ -101,6 +101,8 @@ public class DatabaseService {
         } catch (SQLException e) {
             this.log.fatal(e.getMessage());
         }
+
+        STORAGE.putSending(sending);
         return true;
     }
 

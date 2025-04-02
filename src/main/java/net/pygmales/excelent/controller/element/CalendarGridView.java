@@ -1,4 +1,4 @@
-package net.pygmales.excelent.element;
+package net.pygmales.excelent.controller.element;
 
 import javafx.collections.ObservableList;
 import net.pygmales.excelent.common.Styles;
