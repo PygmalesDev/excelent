@@ -5,6 +5,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.Pane;
 import net.pygmales.excelent.record.Sending;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Objects;
@@ -18,7 +19,7 @@ public class SendingListCell extends ListCell<Sending> {
     public SendingListCell() {
         root.getChildren().addAll(companyNameLabel, trackNumberLabel, maxDateLabel);
 
-        root.setPrefSize(180, 60);
+        root.setPrefSize(170, 60);
 
         companyNameLabel.setLayoutX(14);
         companyNameLabel.setLayoutY(11);
@@ -26,7 +27,7 @@ public class SendingListCell extends ListCell<Sending> {
         trackNumberLabel.setLayoutX(14);
         trackNumberLabel.setLayoutY(32);
 
-        maxDateLabel.setLayoutX(110);
+        maxDateLabel.setLayoutX(100);
         maxDateLabel.setLayoutY(32);
 
         setGraphic(root);
@@ -42,7 +43,10 @@ public class SendingListCell extends ListCell<Sending> {
         }
 
         this.root.getStyleClass().clear();
-        this.root.getStyleClass().addAll("sending", "sending-open");
+        if (Objects.equals(sending.messageAnswerDaysMax(), LocalDate.now()))
+            this.root.getStyleClass().addAll("sending", "sending-today");
+        else
+            this.root.getStyleClass().addAll("sending", "sending-open");
 
         companyNameLabel.setText(sending.companyName());
         if (!sending.trackNumber().isEmpty())

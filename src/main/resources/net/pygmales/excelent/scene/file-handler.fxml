@@ -62,6 +62,7 @@
                            <Label fx:id="driverTrackNumberLabel" layoutX="208.0" layoutY="193.0" text="\%driver_track_num" />
                            <Label fx:id="openStatusLabel" layoutX="524.0" layoutY="24.0" text="\%status" />
                            <Label fx:id="phoneNumberLabel" layoutX="150.0" layoutY="34.0" text="\%phone_number" />
+                           <Button layoutX="506.0" layoutY="486.0" mnemonicParsing="false" onAction="#deleteSending" text="Удалить" />
                         </children>
                      </AnchorPane>
                      <ListView fx:id="sendingsListView" layoutX="1.0" layoutY="1.0" maxHeight="-Infinity" prefHeight="510.0" prefWidth="200.0" />
@@ -72,7 +73,7 @@
        </Tab>
        <Tab fx:id="calendarTab" text="Календарь">
          <content>
-           <AnchorPane fx:id="calendarAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+           <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
                      <AnchorPane fx:id="calendarAnchorPane" layoutX="139.0" layoutY="77.0" prefHeight="440.0" prefWidth="522.0" />
                      <Group layoutX="160.0" layoutY="42.0">
@@ -148,7 +149,7 @@
                <Font name="System Bold" size="14.0" />
             </font>
          </Label>
-         <TextField fx:id="companyNameText" layoutX="197.0" layoutY="53.0" />
+         <TextField fx:id="companyNameText" layoutX="197.0" layoutY="53.0" styleClass="company-name-text" />
          <Text layoutX="27.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Количество рабочих дней для оплаты" wrappingWidth="149.0" AnchorPane.leftAnchor="27.0" />
          <DatePicker fx:id="messageReceivedDate" layoutX="197.0" layoutY="103.0" />
          <TextField fx:id="trackNumberText" layoutX="197.0" layoutY="189.0" />

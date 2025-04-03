@@ -21,7 +21,7 @@ public class DatabaseService {
     private static final Storage STORAGE = Storage.getInstance();
 
     private Connection connection;
-    private String notepadID;
+    private String tableID;
     private String notepadName;
     private final Logger log = Main.getLogger();
 
@@ -42,7 +42,7 @@ public class DatabaseService {
 
     public void linkWithNotepad(Notepad notepad) {
         this.notepadName = notepad.name();
-        this.notepadID = notepad.tableID();
+        this.tableID = notepad.tableID();
         this.createTableIfNotExists();
         this.loadTableEntries();
     }
@@ -60,17 +60,17 @@ public class DatabaseService {
                     phone_number             TEXT,
                     open_status              INTEGER
                 );
-                """, this.notepadID);
+                """, this.tableID);
         try {
             Statement statement = this.connection.createStatement();
             statement.execute(sql);
-            this.log.info("Table '{}' for file '{}' has been opened", this.notepadID, this.notepadName);
+            this.log.info("Table '{}' for file '{}' has been opened", this.tableID, this.notepadName);
         } catch (SQLException e) {
             this.log.fatal(e.getMessage());
         }
     }
 
-    public boolean createSendingEntry(Sending sending) {
+    public boolean createSending(Sending sending) {
         if (sending.companyName().isEmpty()) {
             this.log.error("Sending for table {} does not contain non-null field {}!", this.notepadName, COMPANY_NAME);
             return false;
@@ -83,7 +83,7 @@ public class DatabaseService {
         final String sql = String.format("""
                 INSERT INTO %s(%s)
                     VALUES(%s);
-                """, this.notepadID, TableFields.getFieldsAsString(), values);
+                """, this.tableID, TableFields.getFieldsAsString(), values);
 
         try {
             PreparedStatement statement = this.connection.prepareStatement(sql);
@@ -109,7 +109,7 @@ public class DatabaseService {
     private void loadTableEntries() {
         final String sql = String.format("""
                 SELECT * from %s;
-                """, this.notepadID);
+                """, this.tableID);
         List<Sending> sendingList = new ArrayList<>();
         try {
             Statement statement = this.connection.createStatement();
@@ -127,8 +127,24 @@ public class DatabaseService {
             }
         } catch (SQLException e) {
             log.error("Failed to load sending for notepad `{}` from database table `{}`: {}",
-                    this.notepadName, this.notepadID, e.getMessage());
+                    this.notepadName, this.tableID, e.getMessage());
         }
         STORAGE.putSendings(sendingList);
+    }
+
+    public boolean deleteSending(Sending sending) {
+        final String sql = String.format("DELETE FROM %s WHERE company_name = ?", this.tableID);
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(sql);
+            statement.setString(1, sending.companyName());
+
+            statement.executeUpdate();
+            STORAGE.removeSending(sending);
+            log.info("Deleted sending {} from table {}", sending.companyName(), this.tableID);
+            return true;
+        } catch (SQLException e) {
+            this.log.error(e.getMessage());
+            return false;
+        }
     }
 }

@@ -1,5 +1,6 @@
 package net.pygmales.excelent.controller;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -48,6 +49,7 @@ public class FileHandlerController implements Initializable {
 
     @FXML private Text informationText;
 
+    @FXML private Button confirmNewSendingButton;
     @FXML private TextField companyNameText;
     @FXML private DatePicker messageReceivedDate;
     @FXML private TextField trackNumberText;
@@ -81,6 +83,10 @@ public class FileHandlerController implements Initializable {
         this.calendarGridView.setCellFactory(sendingDayGridView -> new SendingDayGridCell());
         this.calendarAnchorPane.getChildren().add(this.calendarGridView);
         this.calendarTab.setOnSelectionChanged(event -> this.updateCalendar());
+
+        this.confirmNewSendingButton.disableProperty().bind(Bindings.createBooleanBinding(
+                () -> this.companyNameText.getText().isBlank(),
+                this.companyNameText.textProperty()));
     }
 
     private void onSendingSelected(ObservableValue<? extends Sending> observableValue, Sending oldSending, Sending newSending) {
@@ -95,7 +101,16 @@ public class FileHandlerController implements Initializable {
     @FXML
     public void openNewSendingWindow() {
         this.setNewSendingWindowVisible(true);
+        this.clearNewSendingFields();
+    }
+
+    private void clearNewSendingFields() {
         this.messageReceivedDate.setValue(LocalDate.now());
+        this.maxWorkDaysSpinner.getValueFactory().setValue(1);
+        this.companyNameText.clear();
+        this.trackNumberText.clear();
+        this.driverTrackNumberText.clear();
+        this.phoneNumberText.clear();
     }
 
     @FXML
@@ -116,7 +131,10 @@ public class FileHandlerController implements Initializable {
                 this.phoneNumberText.getText().strip(),
                 0);
 
-        if (DATABASE.createSendingEntry(sending)) this.setNewSendingWindowVisible(false);
+        if (DATABASE.createSending(sending)) {
+            this.setNewSendingWindowVisible(false);
+            this.sendingsListView.getSelectionModel().select(sending);
+        }
     }
 
     private void setNewSendingWindowVisible(boolean isVisible) {
@@ -142,6 +160,11 @@ public class FileHandlerController implements Initializable {
 
     }
 
+    private void closeSendingPane() {
+        this.sendingPane.setVisible(false);
+        this.informationText.setVisible(true);
+    }
+
     private void updateCalendar() {
         this.calendarGridView.setItems(CalendarService.getCalendarDaysForMonth(this.currentMonth, this.sendings));
         this.calendarLabel.setText(String.format("%s", this.currentMonth.toString()));
@@ -157,6 +180,13 @@ public class FileHandlerController implements Initializable {
     public void decrementMonth() {
         this.currentMonth = this.currentMonth.minusMonths(1);
         this.updateCalendar();
+    }
+
+    @FXML
+    private void deleteSending() {
+        if (DATABASE.deleteSending(this.sendingsListView.getSelectionModel().getSelectedItem())) {
+            if (this.sendings.isEmpty()) this.closeSendingPane();
+        }
     }
 
 }

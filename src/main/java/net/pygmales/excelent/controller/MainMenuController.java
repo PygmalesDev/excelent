@@ -28,9 +28,6 @@ public class MainMenuController implements Initializable {
     @FXML private Button confirmCreationButton;
     @FXML private ListView<Notepad> notepadsListView;
 
-    private static final Storage STORAGE = Storage.getInstance();
-    private static final DatabaseService DATABASE = DatabaseService.getInstance();
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setConfirmPaneVisible(false);
@@ -39,7 +36,7 @@ public class MainMenuController implements Initializable {
 
         this.confirmCreationButton.disableProperty().bind(
                 Bindings.createBooleanBinding(() ->
-                        this.notepadNameField.getText().trim().isEmpty(),
+                        this.notepadNameField.getText().isBlank(),
                         this.notepadNameField.textProperty()));
 
         this.openNotepadButton.disableProperty().bind(
