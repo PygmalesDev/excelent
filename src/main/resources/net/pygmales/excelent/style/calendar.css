@@ -1,4 +1,75 @@
-. {
-    font-size: 410px;
-    fill: black;
+.grid-view {
+    -fx-horizontal-cell-spacing: 4.0;
+    -fx-vertical-cell-spacing: 4.0;
+    -fx-pref-width: 522;
+    -fx-pref-height: 440;
+    -fx-cell-size: 60, 60;
+}
+
+.cell-weekend {
+    -fx-background-color: lightgray;
+    -fx-border-color: gray;
+}
+
+.cell-empty {
+    -fx-background-color: rgba(128, 128, 128, 0.47);
+}
+
+.cell-normal {
+    -fx-background-color: white;
+    -fx-border-color: #a59f9f;
+}
+
+.cell-normal:pressed:hover {
+    -fx-background-color: #bfbfbf;
+    -fx-border-color: #ececec;
+}
+
+.cell-current {
+    -fx-background-color: lightblue;
+    -fx-border-color: #689bb6;
+}
+
+.cell-current:pressed:hover {
+    -fx-background-color: #80a9b6;
+    -fx-border-color: #8cb6cd;
+}
+
+.grid-cell:hover {
+    -fx-border-radius: 3;
+    -fx-border-color: #e03763;
+}
+
+.grid-cell {
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-border-width: 1.5;
+    -fx-font-size: 12;
+}
+
+.cell-current, .cell-weekend, .cell-normal {
+    -fx-effect: innershadow(gaussian, #00000043, 23.2, 0.1, -10, -10);
+}
+
+.grid-cell .day-label {
+    -fx-pref-width: 14;
+
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+    -fx-alignment: center-right;
+}
+
+.grid-cell .sendings-label {
+    -fx-pref-width: 14;
+
+    -fx-font-size: 24;
+    -fx-text-fill: white;
+    -fx-font-family: "Javanese Text";
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.grid-cell .circle {
+    -fx-fill: #d64053;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.13), 23.2, 0.1, -10, -10);
 }

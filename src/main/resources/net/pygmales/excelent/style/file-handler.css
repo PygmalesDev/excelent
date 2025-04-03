@@ -1,0 +1,46 @@
+.list-view {
+    -fx-cell-size: 3;
+    -fx-background-color: white;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+}
+
+.list-cell:focused {
+    -fx-background-color: transparent;
+}
+
+.list-cell:focused .sending {
+    -fx-background-color: #b4e1d1;
+    -fx-border-color: #93bdb1;
+}
+
+.sending {
+    -fx-padding: 15px 25px;
+    -fx-background-radius: 2;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 2;
+
+    -fx-effect: innershadow(gaussian, #00000043, 23.2, 0.1, -10, -10);
+}
+
+.sending-open {
+    -fx-background-color: #dddce0;
+    -fx-border-color: #9191aa;
+}
+
+.sending-today {
+    -fx-background-color: lightblue;
+    -fx-border-color: #689bb6;
+}
+
+.sending-closed {
+    -fx-background-color: rgba(128, 128, 128, 0.5);
+    -fx-border-color: rgba(56, 56, 56, 0.5);
+}
+
+.list-cell .label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #222222;
+}

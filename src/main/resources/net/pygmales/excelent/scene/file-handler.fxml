@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -19,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.pygmales.excelent.controller.FileHandlerController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.pygmales.excelent.controller.FileHandlerController">
     <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="800.0" AnchorPane.bottomAnchor="574.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" text="Файл">
             <MenuItem mnemonicParsing="false" onAction="#returnToMainScreen" text="Закрыть" />
@@ -63,15 +64,64 @@
                            <Label fx:id="phoneNumberLabel" layoutX="150.0" layoutY="34.0" text="\%phone_number" />
                         </children>
                      </AnchorPane>
+                     <ListView fx:id="sendingsListView" layoutX="1.0" layoutY="1.0" maxHeight="-Infinity" prefHeight="510.0" prefWidth="200.0" />
                      <Button fx:id="newSendingWindowButton" layoutY="510.0" mnemonicParsing="false" onAction="#openNewSendingWindow" prefHeight="34.0" prefWidth="201.0" text="Новая отправка" AnchorPane.bottomAnchor="3.0" />
-                     <ListView fx:id="sendingsListView" editable="true" layoutX="1.0" prefHeight="510.0" prefWidth="200.0" />
                      <Text fx:id="informationText" layoutX="394.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите отправку из списка слева или создайте новую" textAlignment="CENTER" wrappingWidth="213.90625" />
                   </children></AnchorPane>
          </content>
        </Tab>
-       <Tab text="Календарь">
+       <Tab fx:id="calendarTab" text="Календарь">
          <content>
-           <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+           <AnchorPane fx:id="calendarAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                     <AnchorPane fx:id="calendarAnchorPane" layoutX="139.0" layoutY="77.0" prefHeight="440.0" prefWidth="522.0" />
+                     <Group layoutX="160.0" layoutY="42.0">
+                        <children>
+                           <Label text="Пн">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="75.0" text="Вт">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="150.0" text="Ср">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="225.0" text="Чт">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="300.0" text="Пт">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="375.0" text="Сб">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="450.0" text="Вс">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Label>
+                        </children>
+                     </Group>
+                     <Label fx:id="calendarLabel" layoutX="344.0" layoutY="14.0" text="\%Month%Year">
+                        <font>
+                           <Font name="System Bold" size="16.0" />
+                        </font>
+                     </Label>
+                     <Button layoutX="100.0" layoutY="285.0" mnemonicParsing="false" onAction="#decrementMonth" text="&lt;" />
+                     <Button layoutX="674.0" layoutY="285.0" mnemonicParsing="false" onAction="#incrementMonth" text="&gt;" />
+                  </children></AnchorPane>
          </content>
        </Tab>
      </tabs>

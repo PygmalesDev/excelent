@@ -6,8 +6,9 @@ import net.pygmales.excelent.Main;
 import java.net.URL;
 import java.util.Objects;
 
-public class Styles {
+public class StyleSheets {
     public static final String CALENDAR = registerStyle("calendar");
+    public static final String FILE_HANDLER = registerStyle("file-handler");
 
     private static String registerStyle(String name) {
         URL path = App.class.getResource("style/" + name + ".css");

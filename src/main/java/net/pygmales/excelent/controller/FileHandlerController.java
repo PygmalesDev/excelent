@@ -1,38 +1,43 @@
 package net.pygmales.excelent.controller;
 
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import net.pygmales.excelent.App;
 import net.pygmales.excelent.common.Scenes;
-import net.pygmales.excelent.controller.element.CalendarGridView;
-import net.pygmales.excelent.controller.element.SendingListCell;
-import net.pygmales.excelent.record.CalendarCellData;
+import net.pygmales.excelent.common.StyleSheets;
+import net.pygmales.excelent.element.cell.SendingDayGridCell;
+import net.pygmales.excelent.element.cell.SendingListCell;
 import net.pygmales.excelent.record.Sending;
-import net.pygmales.excelent.service.AnswerDateService;
+import net.pygmales.excelent.record.SendingDay;
+import net.pygmales.excelent.service.CalendarService;
 import net.pygmales.excelent.service.DatabaseService;
 import net.pygmales.excelent.service.Storage;
+import org.controlsfx.control.GridView;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class FileHandlerController implements Initializable {
-
     private static final Storage STORAGE = Storage.getInstance();
     private static final DatabaseService DATABASE = DatabaseService.getInstance();
-    private final ObservableList<CalendarCellData> calendarList = FXCollections.observableArrayList();
-    
+
+    private final GridView<SendingDay> calendarGridView = new GridView<>();
+    private final ObservableList<Sending> sendings = STORAGE.getSendingsObservableList();
+    private YearMonth currentMonth = YearMonth.now();
+
+    @FXML private AnchorPane root;
+
     @FXML private Label companyNameLabel;
     @FXML private Label messageReceivedDateLabel;
     @FXML private Label messageAnswerDayMaxLabel;
@@ -54,22 +59,28 @@ public class FileHandlerController implements Initializable {
 
     @FXML private Pane shadowPane;
     @FXML private AnchorPane newSendingPane;
-    @FXML private AnchorPane calendarPane;
     @FXML private Label fileNameLabel;
+
+    @FXML private AnchorPane calendarAnchorPane;
+    @FXML private Tab calendarTab;
+    @FXML private Label calendarLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.root.getStylesheets().add(StyleSheets.FILE_HANDLER);
+
         this.setNewSendingWindowVisible(false);
         this.fileNameLabel.setText(STORAGE.getNotepad().name());
         this.maxWorkDaysSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
 
-        this.sendingsListView.setItems(STORAGE.getSendingsObservableList());
+        this.sendingsListView.setItems(this.sendings);
         this.sendingsListView.setCellFactory(sendingListView -> new SendingListCell());
         this.sendingsListView.getFocusModel().focusedItemProperty().addListener((this::onSendingSelected));
 
-        this.calendarPane.getChildren().add(new CalendarGridView(this.calendarList));
-        this.calendarList.addAll(new CalendarCellData(Color.RED), new CalendarCellData(Color.BLACK));
-
+        this.calendarGridView.getStylesheets().add(StyleSheets.CALENDAR);
+        this.calendarGridView.setCellFactory(sendingDayGridView -> new SendingDayGridCell());
+        this.calendarAnchorPane.getChildren().add(this.calendarGridView);
+        this.calendarTab.setOnSelectionChanged(event -> this.updateCalendar());
     }
 
     private void onSendingSelected(ObservableValue<? extends Sending> observableValue, Sending oldSending, Sending newSending) {
@@ -101,7 +112,7 @@ public class FileHandlerController implements Initializable {
                 this.trackNumberText.getText().strip(),
                 this.driverTrackNumberText.getText().strip(),
                 msgReceivedDate, maxWorkDays,
-                AnswerDateService.getMaxAnswerDay(msgReceivedDate, maxWorkDays),
+                CalendarService.getMaxAnswerDay(msgReceivedDate, maxWorkDays),
                 this.phoneNumberText.getText().strip(),
                 0);
 
@@ -129,6 +140,23 @@ public class FileHandlerController implements Initializable {
         this.trackNumberLabel.setText(sending.trackNumber());
         this.driverTrackNumberLabel.setText(sending.driverTrackNumber());
 
+    }
+
+    private void updateCalendar() {
+        this.calendarGridView.setItems(CalendarService.getCalendarDaysForMonth(this.currentMonth, this.sendings));
+        this.calendarLabel.setText(String.format("%s", this.currentMonth.toString()));
+    }
+
+    @FXML
+    private void incrementMonth() {
+        this.currentMonth = this.currentMonth.plusMonths(1);
+        this.updateCalendar();
+    }
+
+    @FXML
+    public void decrementMonth() {
+        this.currentMonth = this.currentMonth.minusMonths(1);
+        this.updateCalendar();
     }
 
 }

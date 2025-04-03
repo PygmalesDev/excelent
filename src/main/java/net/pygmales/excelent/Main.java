@@ -2,7 +2,7 @@ package net.pygmales.excelent;
 
 import javafx.application.Application;
 import net.pygmales.excelent.common.Scenes;
-import net.pygmales.excelent.common.Styles;
+import net.pygmales.excelent.common.StyleSheets;
 import net.pygmales.excelent.service.DatabaseService;
 import net.pygmales.excelent.service.FileManager;
 import net.pygmales.excelent.service.ImageCache;
@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
         Storage.load();
         Scenes.load();
-        Styles.load();
+        StyleSheets.load();
         ImageCache.load();
         FileManager.load();
         DatabaseService.getInstance().connect();

@@ -18,4 +18,8 @@ module net.pygmales.excelent {
     exports net.pygmales.excelent.record;
 
     opens net.pygmales.excelent.controller to javafx.fxml;
+    exports net.pygmales.excelent.element.cell;
+    opens net.pygmales.excelent.element.cell to javafx.fxml;
+    exports net.pygmales.excelent.element.tooltip;
+    opens net.pygmales.excelent.element.tooltip to javafx.fxml;
 }
