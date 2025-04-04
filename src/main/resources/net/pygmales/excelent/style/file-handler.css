@@ -6,6 +6,13 @@
     -fx-background-color: #676A79;
 }
 
+.list-view .scroll-bar {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+    -fx-min-width: 0;
+}
+
 .list-cell {
     -fx-background-color: transparent;
 }
@@ -31,9 +38,18 @@
     -fx-text-fill: #222222;
 }
 
-.anchor-pane {
+.choice-box {
+    -fx-background-color: #403D52;
+}
+
+.anchor-pane, .sending-pane {
     -fx-background-color: #555764;
 }
+
+.sending-pane:hover {
+    -fx-background-color: #5f5564;
+}
+
 
 .new-sending-label {
     -fx-font-size: 24;

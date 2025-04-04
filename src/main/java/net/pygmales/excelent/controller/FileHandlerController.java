@@ -2,6 +2,7 @@ package net.pygmales.excelent.controller;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,9 +26,6 @@ import org.controlsfx.control.GridView;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class FileHandlerController implements Initializable {
@@ -37,14 +35,6 @@ public class FileHandlerController implements Initializable {
     private final GridView<SendingDay> calendarGridView = new GridView<>();
     private final ObservableList<Sending> sendings = STORAGE.getSendingsObservableList();
     private YearMonth currentMonth = YearMonth.now();
-
-    @FXML private Label companyNameLabel;
-    @FXML private Label messageReceivedDateLabel;
-    @FXML private Label messageAnswerDayMaxLabel;
-    @FXML private Label trackNumberLabel;
-    @FXML private Label openStatusLabel;
-    @FXML private Label phoneNumberLabel;
-    @FXML private Label driverTrackNumberLabel;
 
     @FXML private Text informationText;
 
@@ -65,6 +55,9 @@ public class FileHandlerController implements Initializable {
     @FXML private Tab calendarTab;
     @FXML private Label calendarLabel;
 
+    @FXML private ScrollPane listViewScroll;
+    @FXML private ScrollPane headerScroll;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setNewSendingWindowVisible(false);
@@ -73,12 +66,7 @@ public class FileHandlerController implements Initializable {
 
         this.sendingsListView.setItems(this.sendings);
         this.sendingsListView.setCellFactory(sendingListView -> new SendingListCell());
-        this.sendingsListView.getFocusModel().focusedItemProperty().addListener((this::onSendingSelected));
-        if (!this.sendings.isEmpty()) {
-            Sending firstSending = this.sendings.getFirst();
-            this.fillSendingPane(firstSending);
-            this.sendingsListView.getSelectionModel().select(firstSending);
-        }
+        this.sendingsListView.prefHeightProperty().bind(Bindings.size(this.sendings).multiply(65));
 
         this.calendarGridView.getStylesheets().add(StyleSheets.CALENDAR);
         this.calendarGridView.setCellFactory(sendingDayGridView -> new SendingDayGridCell());
@@ -88,15 +76,20 @@ public class FileHandlerController implements Initializable {
         this.confirmNewSendingButton.disableProperty().bind(Bindings.createBooleanBinding(
                 () -> this.companyNameText.getText().isBlank(),
                 this.companyNameText.textProperty()));
-    }
 
-    private void onSendingSelected(ObservableValue<? extends Sending> observableValue, Sending oldSending, Sending newSending) {
-        if (Objects.nonNull(newSending)) this.fillSendingPane(newSending);
+        this.headerScroll.hvalueProperty().bind(Bindings.createDoubleBinding(
+                () -> this.listViewScroll.getHvalue(),
+                this.listViewScroll.hvalueProperty()));
     }
 
     @FXML
     public void returnToMainScreen() {
         App.setScene(Scenes.MAIN_MENU);
+    }
+
+    @FXML
+    public void createEmptySending() {
+        DATABASE.putEmptySending();
     }
 
     @FXML
@@ -143,23 +136,6 @@ public class FileHandlerController implements Initializable {
         this.shadowPane.setVisible(isVisible);
         this.newSendingPane.setVisible(isVisible);
         this.newSendingPane.setMouseTransparent(!isVisible);
-    }
-
-    private void fillSendingPane(Sending sending) {
-        this.sendingPane.setVisible(true);
-        this.informationText.setVisible(false);
-
-        this.companyNameLabel.setText(sending.companyName());
-        this.phoneNumberLabel.setText(sending.phoneNumber());
-        this.openStatusLabel.setText(sending.status().toString());
-        this.messageReceivedDateLabel.setText(sending.messageReceivedDate()
-                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
-        this.messageAnswerDayMaxLabel.setText(sending.messageAnswerDate()
-                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
-
-        this.trackNumberLabel.setText(sending.trackNumber());
-        this.driverTrackNumberLabel.setText(sending.driverTrackNumber());
-
     }
 
     private void closeSendingPane() {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="1500.0" styleClass="sending-pane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="1500.0">
+         <children>
+            <ChoiceBox fx:id="sendingStatusBox" prefHeight="25.0" prefWidth="83.0">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ChoiceBox>
+            <TextField fx:id="companyNameField" prefWidth="120.0" promptText="Название фирмы">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="phoneNumberField" prefWidth="120.0" promptText="Номер телефона">
+               <HBox.margin>
+                  <Insets left="1.0" />
+               </HBox.margin></TextField>
+            <TextField fx:id="trackNumberField" prefWidth="135.0" promptText="Трек номер">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="driverTrackNumberField" prefWidth="135.0" promptText="Трек номер водителя">
+               <HBox.margin>
+                  <Insets left="1.0" />
+               </HBox.margin></TextField>
+            <DatePicker fx:id="msgSentDate" promptText="Дата отправки письма">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </DatePicker>
+            <Spinner fx:id="msgCheckSpinner" prefWidth="50.0" />
+            <TextField fx:id="msgCheckDateField" editable="false" promptText="Дата проверки письма" />
+            <DatePicker fx:id="msgReceivedDate" promptText="Дата получения письма">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </DatePicker>
+            <Spinner fx:id="msgAnswerSpinner" prefWidth="50.0" />
+            <TextField fx:id="msgAnswerDateField" editable="false" promptText="Крайняя дата ответа" />
+            <TextField fx:id="priceField" promptText="Стоимость">
+               <HBox.margin>
+                  <Insets left="1.0" />
+               </HBox.margin></TextField>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" />
+   </padding>
+</Pane>

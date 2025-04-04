@@ -20,7 +20,7 @@ public class App extends Application {
     public void start(Stage stage) {
         STAGE.getIcons().add(ImageCache.get("ss.png"));
         STAGE.setTitle("Excelent!");
-        STAGE.setResizable(false);
+        STAGE.setResizable(true);
 
         FileManager.getLastEditedNotepad().ifPresentOrElse(
                 notepad -> setScene(Scenes.FILE_HANDLER),

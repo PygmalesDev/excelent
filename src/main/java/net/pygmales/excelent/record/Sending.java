@@ -20,4 +20,14 @@ public record Sending(
         String phoneNumber,
         String notes,
         SendingStatus status
-) {}
+) {
+
+    public static Sending empty() {
+        return new Sending(
+                null, null, null,
+                null, 0, null,
+                null, 0, null,
+                null, null, null);
+    }
+
+}

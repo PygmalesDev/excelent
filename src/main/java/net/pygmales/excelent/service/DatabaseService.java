@@ -62,6 +62,23 @@ public class DatabaseService {
         }
     }
 
+    public boolean putEmptySending() {
+        final String sql = String.format("""
+                INSERT INTO %s DEFAULT VALUES;
+        """, this.tableID);
+        try {
+            Statement statement = this.connection.createStatement();
+            statement.executeUpdate(sql);
+
+            STORAGE.putSending(Sending.empty());
+            return true;
+        } catch (SQLException e) {
+            this.log.error(e.getMessage());
+            return false;
+        }
+
+    }
+
     public boolean createSending(Sending sending) {
         if (sending.companyName().isEmpty()) {
             this.log.error("Sending for table {} does not contain non-null field {}!", this.notepadName, COMPANY_NAME);
@@ -114,6 +131,11 @@ public class DatabaseService {
             Statement statement = this.connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
             while (result.next()) {
+                if (Objects.isNull(result.getString(COMPANY_NAME))) {
+                    sendingList.add(Sending.empty());
+                    continue;
+                }
+
                 sendingList.add(new Sending(
                         result.getString(COMPANY_NAME),
                         result.getString(TRACK_NUM),

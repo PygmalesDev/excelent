@@ -1,45 +1,38 @@
 package net.pygmales.excelent.element.cell;
 
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.layout.Pane;
+import javafx.collections.FXCollections;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import net.pygmales.excelent.common.Scenes;
 import net.pygmales.excelent.record.Sending;
+import net.pygmales.excelent.util.database.SendingStatus;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Objects;
 
 public class SendingListCell extends ListCell<Sending> {
-    private final Pane root = new Pane();
-    private final Label sendingStatusLabel = new Label();
-    private final Label companyNameLabel = new Label();
-    private final Label trackNumberLabel = new Label();
-    private final Label maxDateLabel = new Label();
+    private final Node root = Scenes.SENDING_LIST_CELL.get().getRoot();
+    private final ChoiceBox<SendingStatus> sendingStatusBox = (ChoiceBox<SendingStatus>) root.lookup("#sendingStatusBox");
+    private final TextField companyNameField = (TextField) root.lookup("#companyNameField");
+    private final TextField phoneNumberField = (TextField) root.lookup("#phoneNumberField");
+    private final TextField trackNumberField = (TextField) root.lookup("#trackNumberField");
+    private final TextField driverTrackNumberField = (TextField) root.lookup("#driverTrackNumberField");
+    private final DatePicker msgSentDate = (DatePicker) root.lookup("#msgSentDate");
+    private final Spinner<Integer> msgCheckSpinner = (Spinner<Integer>) root.lookup("#msgCheckSpinner");
+    private final TextField msgCheckDateField = (TextField) root.lookup("#msgCheckDateField");
+    private final DatePicker msgReceivedDate = (DatePicker) root.lookup("#msgReceivedDate");
+    private final Spinner<Integer> msgAnswerSpinner = (Spinner<Integer>) root.lookup("#msgAnswerSpinner");
+    private final TextField msgAnswerDateField = (TextField) root.lookup("#msgAnswerDateField");
+
 
     public SendingListCell() {
-        root.getChildren().addAll(
-                companyNameLabel,
-                sendingStatusLabel,
-                trackNumberLabel,
-                maxDateLabel);
+        this.setGraphic(this.root);
 
-        root.setPrefSize(170, 60);
-        root.getStyleClass().add("sending");
+        this.sendingStatusBox.setItems(FXCollections.observableArrayList(SendingStatus.values()));
+        this.sendingStatusBox.setValue(SendingStatus.SENT);
 
-        sendingStatusLabel.setLayoutX(82);
-        sendingStatusLabel.setLayoutY(11);
-
-        companyNameLabel.setLayoutX(14);
-        companyNameLabel.setLayoutY(11);
-
-        trackNumberLabel.setLayoutX(14);
-        trackNumberLabel.setLayoutY(32);
-
-        maxDateLabel.setLayoutX(100);
-        maxDateLabel.setLayoutY(32);
-
-        setGraphic(root);
+        this.msgCheckSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 7));
+        this.msgAnswerSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 7));
+        this.msgSentDate.setValue(LocalDate.now());
     }
 
     @Override
@@ -51,21 +44,7 @@ public class SendingListCell extends ListCell<Sending> {
             return;
         }
 
-        switch (sending.status()) {
-            case SENT -> this.sendingStatusLabel.setText("ОТПРАВЛЕНО");
-            case RECEIVED -> this.sendingStatusLabel.setText("ПОЛУЧЕНО");
-            case PAYED -> this.sendingStatusLabel.setText("ОПЛАЧЕНО");
-            case CLOSED -> this.sendingStatusLabel.setText("ЗАКРЫТО");
-        }
-
-
-        companyNameLabel.setText(sending.companyName());
-        if (!sending.trackNumber().isEmpty())
-            trackNumberLabel.setText(sending.trackNumber());
-        else
-            trackNumberLabel.setText(sending.driverTrackNumber());
-
-        maxDateLabel.setText(sending.messageCheckDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
-        setGraphic(this.root);
+        this.setGraphic(this.root);
     }
+
 }
