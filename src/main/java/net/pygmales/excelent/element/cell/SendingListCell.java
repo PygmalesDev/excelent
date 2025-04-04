@@ -12,14 +12,23 @@ import java.util.Objects;
 
 public class SendingListCell extends ListCell<Sending> {
     private final Pane root = new Pane();
+    private final Label sendingStatusLabel = new Label();
     private final Label companyNameLabel = new Label();
     private final Label trackNumberLabel = new Label();
     private final Label maxDateLabel = new Label();
 
     public SendingListCell() {
-        root.getChildren().addAll(companyNameLabel, trackNumberLabel, maxDateLabel);
+        root.getChildren().addAll(
+                companyNameLabel,
+                sendingStatusLabel,
+                trackNumberLabel,
+                maxDateLabel);
 
         root.setPrefSize(170, 60);
+        root.getStyleClass().add("sending");
+
+        sendingStatusLabel.setLayoutX(82);
+        sendingStatusLabel.setLayoutY(11);
 
         companyNameLabel.setLayoutX(14);
         companyNameLabel.setLayoutY(11);
@@ -42,11 +51,13 @@ public class SendingListCell extends ListCell<Sending> {
             return;
         }
 
-        this.root.getStyleClass().clear();
-        if (Objects.equals(sending.messageAnswerDaysMax(), LocalDate.now()))
-            this.root.getStyleClass().addAll("sending", "sending-today");
-        else
-            this.root.getStyleClass().addAll("sending", "sending-open");
+        switch (sending.status()) {
+            case SENT -> this.sendingStatusLabel.setText("ОТПРАВЛЕНО");
+            case RECEIVED -> this.sendingStatusLabel.setText("ПОЛУЧЕНО");
+            case PAYED -> this.sendingStatusLabel.setText("ОПЛАЧЕНО");
+            case CLOSED -> this.sendingStatusLabel.setText("ЗАКРЫТО");
+        }
+
 
         companyNameLabel.setText(sending.companyName());
         if (!sending.trackNumber().isEmpty())
@@ -54,7 +65,7 @@ public class SendingListCell extends ListCell<Sending> {
         else
             trackNumberLabel.setText(sending.driverTrackNumber());
 
-        maxDateLabel.setText(sending.messageAnswerDaysMax().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
+        maxDateLabel.setText(sending.messageCheckDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
         setGraphic(this.root);
     }
 }

@@ -3,6 +3,7 @@ package net.pygmales.excelent.service;
 import net.pygmales.excelent.Main;
 import net.pygmales.excelent.record.Notepad;
 import net.pygmales.excelent.record.Sending;
+import net.pygmales.excelent.util.database.SendingStatus;
 import net.pygmales.excelent.util.database.TableFields;
 import org.apache.logging.log4j.Logger;
 
@@ -50,17 +51,8 @@ public class DatabaseService {
     public void createTableIfNotExists() {
         final String sql = String.format("""
                 CREATE TABLE IF NOT EXISTS %s (
-                    id                       INTEGER     PRIMARY KEY,
-                    company_name             TEXT        NOT NULL,
-                    track_num                TEXT,
-                    driver_track_num         TEXT,
-                    msg_received_date        TEXT,
-                    msg_answer_time_days     INTEGER,
-                    msg_answer_date_max      TEXT,
-                    phone_number             TEXT,
-                    open_status              INTEGER
-                );
-                """, this.tableID);
+                    id INTEGER PRIMARY KEY, %s
+                );""", this.tableID, TableFields.getFieldTypesAsString());
         try {
             Statement statement = this.connection.createStatement();
             statement.execute(sql);
@@ -77,7 +69,7 @@ public class DatabaseService {
         }
 
         StringBuilder values = new StringBuilder();
-        values.repeat("?, ", TableFields.getAll().size());
+        values.repeat("?, ", FIELD_TYPES.size());
         values.delete(values.length()-2, values.length());
 
         final String sql = String.format("""
@@ -91,19 +83,26 @@ public class DatabaseService {
             statement.setString(1, sending.companyName());
             statement.setString(2, sending.trackNumber());
             statement.setString(3, sending.driverTrackNumber());
-            statement.setString(4, sending.messageReceivedDate().toString());
-            statement.setInt(5, sending.messageAnswerTimeDays());
-            statement.setString(6, sending.messageAnswerDaysMax().toString());
-            statement.setString(7, sending.phoneNumber());
-            statement.setInt(8, sending.openStatus());
+
+            statement.setString(4, sending.messageSentDate().toString());
+            statement.setInt(5, sending.messageCheckDays());
+            statement.setString(6, sending.messageCheckDate().toString());
+
+            statement.setString(7, sending.messageReceivedDate().toString());
+            statement.setInt(8, sending.messageAnswerDays());
+            statement.setString(9, sending.messageAnswerDate().toString());
+
+            statement.setString(10, sending.phoneNumber());
+            statement.setString(11, sending.notes());
+            statement.setString(12, sending.status().toString());
 
             statement.executeUpdate();
+            STORAGE.putSending(sending);
+            return true;
         } catch (SQLException e) {
             this.log.fatal(e.getMessage());
+            return false;
         }
-
-        STORAGE.putSending(sending);
-        return true;
     }
 
     private void loadTableEntries() {
@@ -119,11 +118,18 @@ public class DatabaseService {
                         result.getString(COMPANY_NAME),
                         result.getString(TRACK_NUM),
                         result.getString(DRIVER_TRACK_NUM),
+
+                        LocalDate.parse(result.getString(MSG_SENT_DATE)),
+                        result.getInt(MSG_CHECK_DAYS),
+                        LocalDate.parse(result.getString(MSG_CHECK_DATE)),
+
                         LocalDate.parse(result.getString(MSG_RECEIVED_DATE)),
-                        result.getInt(MSG_ANSWER_TIME_DAYS),
-                        LocalDate.parse(result.getString(MSG_ANSWER_DATE_MAX)),
+                        result.getInt(MSG_ANSWER_DAYS),
+                        LocalDate.parse(result.getString(MSG_ANSWER_DATE)),
+
                         result.getString(PHONE_NUMBER),
-                        result.getInt(OPEN_STATUS)));
+                        result.getString(NOTES),
+                        SendingStatus.valueOf(result.getString(SENDING_STATUS))));
             }
         } catch (SQLException e) {
             log.error("Failed to load sending for notepad `{}` from database table `{}`: {}",

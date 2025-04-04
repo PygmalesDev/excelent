@@ -27,8 +27,8 @@ public class CalendarService {
         LocalDate today = LocalDate.now();
 
         List<Sending> sendingsForMonth = sendings.stream()
-                .filter(sending -> Objects.equals(sending.messageAnswerDaysMax().getMonth(), month.getMonth())
-                                && Objects.equals(sending.messageAnswerDaysMax().getYear(), month.getYear()))
+                .filter(sending -> Objects.equals(sending.messageAnswerDate().getMonth(), month.getMonth())
+                                && Objects.equals(sending.messageAnswerDate().getYear(), month.getYear()))
                 .toList();
 
         int emptyDays = month.atDay(1).getDayOfWeek().getValue()-1;
@@ -38,7 +38,7 @@ public class CalendarService {
             LocalDate day = month.atDay(i);
             DayOfWeek dayOfWeek = day.getDayOfWeek();
             List<Sending> sendingsForDay = sendingsForMonth.stream()
-                    .filter(sending -> sending.messageAnswerDaysMax().getDayOfMonth() == i)
+                    .filter(sending -> sending.messageAnswerDate().getDayOfMonth() == i)
                     .toList();
             if (Objects.equals(day, today))
                 sendingDays.add(new SendingDay(SendingDayType.CURRENT, sendingsForDay, i));

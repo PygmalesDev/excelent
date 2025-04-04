@@ -1,14 +1,23 @@
 package net.pygmales.excelent.record;
 
+import net.pygmales.excelent.util.database.SendingStatus;
+
 import java.time.LocalDate;
 
 public record Sending(
         String companyName,
         String trackNumber,
         String driverTrackNumber,
+
+        LocalDate messageSentDate,
+        int messageCheckDays,
+        LocalDate messageCheckDate,
+
         LocalDate messageReceivedDate,
-        int messageAnswerTimeDays,
-        LocalDate messageAnswerDaysMax,
+        int messageAnswerDays,
+        LocalDate messageAnswerDate,
+
         String phoneNumber,
-        int openStatus
+        String notes,
+        SendingStatus status
 ) {}

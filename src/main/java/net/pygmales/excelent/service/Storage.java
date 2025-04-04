@@ -32,7 +32,7 @@ public class Storage {
     }
 
     private void sortSendings() {
-        this.sendings.sort(Comparator.comparing(Sending::messageAnswerDaysMax));
+        this.sendings.sort(Comparator.comparing(Sending::messageCheckDate));
     }
 
     public void putSending(Sending sending) {

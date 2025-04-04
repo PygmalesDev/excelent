@@ -19,6 +19,7 @@ import net.pygmales.excelent.record.SendingDay;
 import net.pygmales.excelent.service.CalendarService;
 import net.pygmales.excelent.service.DatabaseService;
 import net.pygmales.excelent.service.Storage;
+import net.pygmales.excelent.util.database.SendingStatus;
 import org.controlsfx.control.GridView;
 
 import java.net.URL;
@@ -37,8 +38,6 @@ public class FileHandlerController implements Initializable {
     private final ObservableList<Sending> sendings = STORAGE.getSendingsObservableList();
     private YearMonth currentMonth = YearMonth.now();
 
-    @FXML private AnchorPane root;
-
     @FXML private Label companyNameLabel;
     @FXML private Label messageReceivedDateLabel;
     @FXML private Label messageAnswerDayMaxLabel;
@@ -51,10 +50,9 @@ public class FileHandlerController implements Initializable {
 
     @FXML private Button confirmNewSendingButton;
     @FXML private TextField companyNameText;
-    @FXML private DatePicker messageReceivedDate;
+    @FXML private DatePicker messageSentDate;
     @FXML private TextField trackNumberText;
-    @FXML private TextField driverTrackNumberText;
-    @FXML private Spinner<Integer> maxWorkDaysSpinner;
+    @FXML private Spinner<Integer> messageCheckSpinner;
     @FXML private TextField phoneNumberText;
     @FXML private ListView<Sending> sendingsListView;
     @FXML private AnchorPane sendingPane;
@@ -69,15 +67,18 @@ public class FileHandlerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.root.getStylesheets().add(StyleSheets.FILE_HANDLER);
-
         this.setNewSendingWindowVisible(false);
         this.fileNameLabel.setText(STORAGE.getNotepad().name());
-        this.maxWorkDaysSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
+        this.messageCheckSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 7));
 
         this.sendingsListView.setItems(this.sendings);
         this.sendingsListView.setCellFactory(sendingListView -> new SendingListCell());
         this.sendingsListView.getFocusModel().focusedItemProperty().addListener((this::onSendingSelected));
+        if (!this.sendings.isEmpty()) {
+            Sending firstSending = this.sendings.getFirst();
+            this.fillSendingPane(firstSending);
+            this.sendingsListView.getSelectionModel().select(firstSending);
+        }
 
         this.calendarGridView.getStylesheets().add(StyleSheets.CALENDAR);
         this.calendarGridView.setCellFactory(sendingDayGridView -> new SendingDayGridCell());
@@ -105,11 +106,10 @@ public class FileHandlerController implements Initializable {
     }
 
     private void clearNewSendingFields() {
-        this.messageReceivedDate.setValue(LocalDate.now());
-        this.maxWorkDaysSpinner.getValueFactory().setValue(1);
+        this.messageSentDate.setValue(LocalDate.now());
+        this.messageCheckSpinner.getValueFactory().setValue(7);
         this.companyNameText.clear();
         this.trackNumberText.clear();
-        this.driverTrackNumberText.clear();
         this.phoneNumberText.clear();
     }
 
@@ -120,16 +120,18 @@ public class FileHandlerController implements Initializable {
 
     @FXML
     public void confirmSendingCreation() {
-        LocalDate msgReceivedDate = this.messageReceivedDate.getValue();
-        int maxWorkDays = this.maxWorkDaysSpinner.getValue();
+        LocalDate msgSentDate = this.messageSentDate.getValue();
+        int maxWorkDays = this.messageCheckSpinner.getValue();
         Sending sending = new Sending(
                 this.companyNameText.getText().strip(),
                 this.trackNumberText.getText().strip(),
-                this.driverTrackNumberText.getText().strip(),
-                msgReceivedDate, maxWorkDays,
-                CalendarService.getMaxAnswerDay(msgReceivedDate, maxWorkDays),
-                this.phoneNumberText.getText().strip(),
-                0);
+                "",
+
+                msgSentDate, maxWorkDays, CalendarService.getMaxAnswerDay(msgSentDate, maxWorkDays),
+
+                LocalDate.now(), 0, LocalDate.now(),
+
+                this.phoneNumberText.getText().strip(), "", SendingStatus.SENT);
 
         if (DATABASE.createSending(sending)) {
             this.setNewSendingWindowVisible(false);
@@ -149,10 +151,10 @@ public class FileHandlerController implements Initializable {
 
         this.companyNameLabel.setText(sending.companyName());
         this.phoneNumberLabel.setText(sending.phoneNumber());
-        this.openStatusLabel.setText(""+sending.openStatus());
+        this.openStatusLabel.setText(sending.status().toString());
         this.messageReceivedDateLabel.setText(sending.messageReceivedDate()
                 .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
-        this.messageAnswerDayMaxLabel.setText(sending.messageAnswerDaysMax()
+        this.messageAnswerDayMaxLabel.setText(sending.messageAnswerDate()
                 .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
 
         this.trackNumberLabel.setText(sending.trackNumber());

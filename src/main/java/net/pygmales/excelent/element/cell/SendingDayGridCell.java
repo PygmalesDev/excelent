@@ -34,14 +34,14 @@ public class SendingDayGridCell extends GridCell<SendingDay> {
         this.dayLabel.setLayoutY(40);
 
         this.sendingsCircle.getStyleClass().add("circle");
-        this.sendingsCircle.setRadius(18);
-        this.sendingsCircle.setLayoutX(30);
-        this.sendingsCircle.setLayoutY(30);
+        this.sendingsCircle.setRadius(14);
+        this.sendingsCircle.setLayoutX(20);
+        this.sendingsCircle.setLayoutY(20);
         this.sendingsCircle.setVisible(false);
 
         this.sendingsLabel.getStyleClass().add("sendings-label");
-        this.sendingsLabel.setLayoutX(24);
-        this.sendingsLabel.setLayoutY(-5);
+        this.sendingsLabel.setLayoutX(13);
+        this.sendingsLabel.setLayoutY(12);
         this.sendingsLabel.setVisible(false);
 
         this.setMouseTransparent(true);

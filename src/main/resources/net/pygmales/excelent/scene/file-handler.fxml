@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
@@ -17,10 +18,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.pygmales.excelent.controller.FileHandlerController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../style/file-handler.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.pygmales.excelent.controller.FileHandlerController">
     <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="800.0" AnchorPane.bottomAnchor="574.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" text="Файл">
             <MenuItem mnemonicParsing="false" onAction="#returnToMainScreen" text="Закрыть" />
@@ -35,11 +37,11 @@
         </Menu>
     </MenuBar>
     <Label fx:id="fileNameLabel" alignment="CENTER_RIGHT" layoutX="607.0" layoutY="4.0" prefHeight="17.0" prefWidth="180.0" text="\%fileName" textAlignment="RIGHT" />
-   <TabPane layoutY="26.0" prefHeight="576.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+   <TabPane layoutY="26.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="576.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
        <Tab text="Отправки">
          <content>
-           <AnchorPane fx:id="editPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+           <AnchorPane fx:id="editPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="anchor-pane">
                   <children>
                      <AnchorPane fx:id="sendingPane" layoutX="200.0" layoutY="-1.0" prefHeight="548.0" prefWidth="601.0" visible="false">
                         <children>
@@ -66,14 +68,16 @@
                         </children>
                      </AnchorPane>
                      <ListView fx:id="sendingsListView" layoutX="1.0" layoutY="1.0" maxHeight="-Infinity" prefHeight="510.0" prefWidth="200.0" />
-                     <Button fx:id="newSendingWindowButton" layoutY="510.0" mnemonicParsing="false" onAction="#openNewSendingWindow" prefHeight="34.0" prefWidth="201.0" text="Новая отправка" AnchorPane.bottomAnchor="3.0" />
-                     <Text fx:id="informationText" layoutX="394.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите отправку из списка слева или создайте новую" textAlignment="CENTER" wrappingWidth="213.90625" />
+                     <Button fx:id="newSendingWindowButton" layoutY="511.0" mnemonicParsing="false" onAction="#openNewSendingWindow" prefHeight="34.0" prefWidth="201.0" text="Новая отправка" AnchorPane.bottomAnchor="2.0" />
+                     <Text fx:id="informationText" layoutX="373.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Выберите отправку из списка слева или создайте новую" textAlignment="CENTER" wrappingWidth="259.90625" />
+                     <Line endX="-1.0" endY="546.0" layoutX="201.0" layoutY="1.0" stroke="#b2b2b2" />
+                     <Line endX="807.0" layoutX="1.0" layoutY="1.0" stroke="#b2b2b2" />
                   </children></AnchorPane>
          </content>
        </Tab>
        <Tab fx:id="calendarTab" text="Календарь">
          <content>
-           <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+           <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="anchor-pane">
                   <children>
                      <AnchorPane fx:id="calendarAnchorPane" layoutX="139.0" layoutY="77.0" prefHeight="440.0" prefWidth="522.0" />
                      <Group layoutX="160.0" layoutY="42.0">
@@ -128,7 +132,7 @@
      </tabs>
    </TabPane>
    <Pane fx:id="shadowPane" opacity="0.5" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: black;" visible="false" />
-   <AnchorPane fx:id="newSendingPane" layoutX="213.0" layoutY="134.0" prefHeight="365.0" prefWidth="407.0" style="-fx-background-color: white; -fx-background-radius: 10;" visible="false" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="213.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="134.0">
+   <AnchorPane fx:id="newSendingPane" layoutX="213.0" layoutY="134.0" prefHeight="331.0" prefWidth="407.0" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="213.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="134.0">
       <effect>
          <DropShadow height="176.35" radius="92.07" width="193.93">
             <color>
@@ -139,23 +143,26 @@
       <children>
          <Button fx:id="closeNewSendingButton" layoutX="369.0" layoutY="12.0" mnemonicParsing="false" onAction="#closeNewSendingWindow" text="X" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="12.0" />
          <Button fx:id="confirmNewSendingButton" layoutX="365.0" layoutY="330.0" mnemonicParsing="false" onAction="#confirmSendingCreation" text="Создать" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-         <Label layoutX="27.0" layoutY="57.0" text="Название фирмы" AnchorPane.leftAnchor="27.0" />
-         <Label layoutX="27.0" layoutY="107.0" text="Дата получения письма" AnchorPane.leftAnchor="27.0" />
-         <Label layoutX="30.0" layoutY="276.0" text="Номер телефона" AnchorPane.leftAnchor="30.0" />
-         <Label layoutX="27.0" layoutY="193.0" text="Трек номер счёта" AnchorPane.leftAnchor="30.0" />
-         <Label layoutX="27.0" layoutY="224.0" text="Трек номер водителя" AnchorPane.leftAnchor="30.0" />
-         <Label layoutX="27.0" layoutY="16.0" text="Создание новой отправки" AnchorPane.leftAnchor="27.0">
+         <Label layoutX="26.0" layoutY="56.0" text="Название фирмы" AnchorPane.leftAnchor="26.0" />
+         <Label layoutX="25.0" layoutY="139.0" text="Дата отправки письма" AnchorPane.leftAnchor="25.0" />
+         <Label layoutX="27.0" layoutY="241.0" text="Номер телефона" AnchorPane.leftAnchor="27.0" />
+         <Label layoutX="27.0" layoutY="108.0" text="Трек номер" AnchorPane.leftAnchor="27.0" />
+         <Label layoutX="27.0" layoutY="16.0" styleClass="new-sending-label" text="Создание новой отправки" AnchorPane.leftAnchor="27.0">
             <font>
-               <Font name="System Bold" size="14.0" />
+               <Font name="System Bold" size="13.0" />
             </font>
          </Label>
-         <TextField fx:id="companyNameText" layoutX="197.0" layoutY="53.0" styleClass="company-name-text" />
-         <Text layoutX="27.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Количество рабочих дней для оплаты" wrappingWidth="149.0" AnchorPane.leftAnchor="27.0" />
-         <DatePicker fx:id="messageReceivedDate" layoutX="197.0" layoutY="103.0" />
-         <TextField fx:id="trackNumberText" layoutX="197.0" layoutY="189.0" />
-         <TextField fx:id="driverTrackNumberText" layoutX="197.0" layoutY="220.0" />
-         <TextField fx:id="phoneNumberText" layoutX="197.0" layoutY="272.0" />
-         <Spinner fx:id="maxWorkDaysSpinner" editable="true" layoutX="197.0" layoutY="134.0" prefHeight="25.0" prefWidth="53.0" />
+         <TextField fx:id="companyNameText" layoutX="196.0" layoutY="52.0" styleClass="company-name-text" />
+         <Text layoutX="25.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Проверить статус через" wrappingWidth="149.0" AnchorPane.leftAnchor="25.0" />
+         <DatePicker fx:id="messageSentDate" layoutX="195.0" layoutY="135.0" />
+         <TextField fx:id="trackNumberText" layoutX="196.0" layoutY="103.0" />
+         <TextField fx:id="phoneNumberText" layoutX="194.0" layoutY="237.0" />
+         <Spinner fx:id="messageCheckSpinner" editable="true" layoutX="195.0" layoutY="166.0" prefHeight="25.0" prefWidth="53.0" />
+         <Label layoutX="256.0" layoutY="171.0" text="рабочих дней" />
       </children>
+      <styleClass>
+         <String fx:value="anchor-pane" />
+         <String fx:value="new-sending-pane" />
+      </styleClass>
    </AnchorPane>
 </AnchorPane>

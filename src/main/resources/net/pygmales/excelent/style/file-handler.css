@@ -1,5 +1,9 @@
+.root {
+    -fx-focus-color: transparent;
+}
+
 .list-view {
-    -fx-background-color: white;
+    -fx-background-color: #676A79;
 }
 
 .list-cell {
@@ -11,35 +15,128 @@
 }
 
 .list-cell:focused .sending {
-    -fx-background-color: #b4e1d1;
-    -fx-border-color: #93bdb1;
+    -fx-background-color: #403D52;
 }
 
 .sending {
-    -fx-padding: 15px 25px;
-    -fx-background-radius: 2;
-    -fx-border-width: 1.5;
-    -fx-border-radius: 2;
-
-    -fx-effect: innershadow(gaussian, #00000043, 23.2, 0.1, -10, -10);
+    -fx-background-color: #25232F;
 }
 
-.sending-open {
-    -fx-background-color: #dddce0;
-    -fx-border-color: #9191aa;
-}
-
-.sending-today {
-    -fx-background-color: lightblue;
-    -fx-border-color: #689bb6;
-}
-
-.sending-closed {
-    -fx-background-color: rgba(128, 128, 128, 0.5);
-    -fx-border-color: rgba(56, 56, 56, 0.5);
+.sending:hover {
+    -fx-background-color: #352f40;
 }
 
 .list-cell .label {
     -fx-font-weight: bold;
     -fx-text-fill: #222222;
+}
+
+.anchor-pane {
+    -fx-background-color: #555764;
+}
+
+.new-sending-label {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
+
+.label, .text {
+    -fx-fill: #E1E1E1;
+    -fx-font-size: 12;
+    -fx-font-family: "Trebuchet MS";
+}
+
+.button,
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button,
+.date-picker > .arrow-button {
+    -fx-background-radius: 4;
+    -fx-background-color: #86888e;
+    -fx-font-family: "Trebuchet MS";
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E1E1E1;
+
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-padding: 0.166667em 0.333333em 0.166667em 0.333333em;
+    -fx-background-insets: 0 0 -1 0, 0;
+    -fx-background-radius: 8;
+}
+
+.button:hover,
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover,
+.date-picker > .arrow-button:hover {
+    -fx-background-color: #b0b4bb;
+    -fx-text-fill: #ffffff;
+
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: #555764;
+}
+
+.tab {
+    -fx-alignment: center;
+    -fx-background-radius: 0;
+    -fx-font-family: "Trebuchet MS";
+    -fx-background-color: #94979E;
+    -fx-font-size: 24;
+}
+
+.tab:selected {
+    -fx-background-color: #b8bcc6;
+}
+
+.tab:selected .text {
+    -fx-fill: #ffffff;
+}
+
+.menu-bar {
+    -fx-background-color: #403D52;
+}
+
+.menu:hover {
+    -fx-background-color: #595571;
+}
+
+.new-sending-pane {
+    -fx-background-radius: 8;
+}
+
+.text-field, .text-area, .text-area .content {
+    -fx-background-radius: 4;
+    -fx-background-color: #676A79;
+    -fx-border-width: 0;
+    -fx-text-fill: #E1E1E1;
+}
+
+.spinner {
+    -fx-background-color: transparent;
+}
+
+.date-picker {
+    -fx-background-color: transparent;
+}
+
+.calendar-grid {
+    -fx-background-color: rgb(67, 97, 120);
+}
+
+.calendar-header {
+    -fx-background-color: #25232F;
+    -fx-text-fill: #E1E1E1;
+}
+
+.date-picker-popup > .month-year-pane {
+    -fx-background-color: #1d1d1d;
+    -fx-text-fill: #E1E1E1;
+}
+
+.date-picker-popup  {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
 }
