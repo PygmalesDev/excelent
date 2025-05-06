@@ -52,10 +52,10 @@ public class SendingListCell extends ListCell<Sending> {
         }
 
         switch (sending.status()) {
-            case SENT -> this.sendingStatusLabel.setText("ОТПРАВЛЕНО");
-            case RECEIVED -> this.sendingStatusLabel.setText("ПОЛУЧЕНО");
-            case PAYED -> this.sendingStatusLabel.setText("ОПЛАЧЕНО");
-            case CLOSED -> this.sendingStatusLabel.setText("ЗАКРЫТО");
+            case SENT -> this.sendingStatusLabel.setText("SENT");
+            case RECEIVED -> this.sendingStatusLabel.setText("RECEIVED");
+            case PAYED -> this.sendingStatusLabel.setText("PAYED");
+            case CLOSED -> this.sendingStatusLabel.setText("CLOSED");
         }
 
 

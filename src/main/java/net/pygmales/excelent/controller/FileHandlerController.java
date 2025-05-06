@@ -129,7 +129,7 @@ public class FileHandlerController implements Initializable {
 
                 msgSentDate, maxWorkDays, CalendarService.getMaxAnswerDay(msgSentDate, maxWorkDays),
 
-                LocalDate.now(), 0, LocalDate.now(),
+                msgSentDate, maxWorkDays, CalendarService.getMaxAnswerDay(msgSentDate, maxWorkDays),
 
                 this.phoneNumberText.getText().strip(), "", SendingStatus.SENT);
 
